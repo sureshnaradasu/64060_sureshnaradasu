@@ -1,0 +1,84 @@
+---
+title: "Assignment 1"
+author: "Venkata Suresh Naradasu"
+date: "2023-09-09"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+#Data has been taken from ChatGPT
+
+with the name of dataset 1
+
+
+```{r}
+dataset.1 <- read.csv("~/Rstudio/FML assigment1/dataset 1.csv")
+dataset.1
+attach(dataset.1)
+
+```
+
+installed fbasics package for doing all the calculations automatically because in the summary function we are not able to find standard deviation which is included the fBasics library
+
+#Task 1
+
+```{r}
+
+library(fBasics)
+options(scipen = 999) #used to round off the numbers
+basicStats(data.frame(Age))
+
+```
+Now we are going to perform descriptive statistics on the entire data set so that we can see what happens when we try to perform descriptive statistics on qualitative variables or categorical variables 
+
+```{r}
+summary(dataset.1)
+```
+
+As we can see when we try to perform descriptive statistics on categorical variables or qualitative variables we get just get it as character
+
+#Task 2
+
+Now as calculating the descriptive statistics for quantitative values and categorical variables are done for the data in Age
+
+We now move on to transforming one variable 
+
+```{r}
+library(caret)
+Model_z_normalized <- preProcess(dataset.1,method = "range")
+summary(predict(Model_z_normalized,dataset.1))
+
+
+```
+
+#copying the values of the normalized data sets into new variable for further use
+
+```{r}
+
+dataset1_replica <- predict(Model_z_normalized,dataset.1)
+dataset1_replica
+```
+
+Now as the normalization is done we move onto the plotting quantitative variable (for this instance Age)
+
+#Task 3
+
+
+```{r}
+#dataset_name $ column or row name is used for specifically selecting a row or a column in a dataset 
+plot(dataset1_replica$Age,main="plotting Age variable in dataset.1", ylab = "Age", xlab = "Serial numbers of Names", type="l")
+```
+
+Now we are going to do Scatterplot
+
+```{r}
+library(tidyverse)
+
+#c <- c(1,2,3,4,5) cmd to create a data 
+
+#plot(dataset1_replica$Age) with just this we are not able to get scatter plot and in normal plot if we include the categorical variables for any axis it is showing an error where as in it is allowing all the qualitative variables as well
+
+dataset1_replica %>% ggplot(aes(x=Name , y=Age)) +
+          geom_point()
+```
